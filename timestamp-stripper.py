@@ -19,7 +19,8 @@ for root,_,files in os.walk(ccdirectory):
             with open(os.path.join(root,file)) as oldfile, open(new_file_name, 'w') as newfile:
                 #examine each line of the file
                 for line in oldfile:
-                    #Look and see if there are any "bad_words", remove them if they're there
-                    if not any(bad_word in line for bad_word in bad_words):
-                        #print each "bad_word" free line to the file.
-                        newfile.write(line)
+                    if not line.isspace():    
+                        #Look and see if there are any "bad_words", remove them if they're there
+                        if not any(bad_word in line for bad_word in bad_words):
+                            #print each "bad_word" free line to the file.
+                            newfile.write(line)
