@@ -2,6 +2,7 @@ import os
 import sys
 
 
+
 channel_being_downloaded = input("What is the name of the channel you're downloading?")
 # Parent Directory path
 parent_dir = input("What is the path to your other transcripts?")
@@ -13,14 +14,15 @@ print("Directory '% s' created" % channel_being_downloaded)
 #move to the directory you're going to save to
 os.chdir(path)
 
+#get address of the channel
 address_of_channel = input("What is the address of the channel?")
-#all_of_the_regex_that_cleans_the_file = ''';for f in *.vtt;do sed '1,/^$/d' "$f"|sed 's/<[^>]*>//g'|awk -F. 'NR%8==1{printf"%s ",$1}NR%8==3'>"${f%.vtt}";done'''
-#os.system(f"youtube-dl --no-check-certificate --write-auto-sub --skip-download -o'%(upload_date)s.%(title)s.%(id)s.%(ext)s' '{address_of_channel}'{all_of_the_regex_that_cleans_the_file}")
+#download the .vtt files
 os.system(f"youtube-dl --no-check-certificate --write-auto-sub --skip-download -o'%(upload_date)s.%(title)s.%(id)s.%(ext)s' '{address_of_channel}'")
 
-
+#Look at the folder full of .vtt files you just downloaded
 for root,_,files in os.walk(path):
     for file in files:
+        #only work on the .vtt files
         if file.endswith(".vtt"):
             #specify the text to remove
             bad_words = ['-->', 'WEBVTT', '<c>', '</c>']
@@ -30,8 +32,9 @@ for root,_,files in os.walk(path):
             new_file_name = os.path.splitext(new_file_name)[0]+".txt"
             #open each file in the directory one by one
             with open(os.path.join(root,file)) as oldfile, open(new_file_name, 'w') as newfile:
-                #examine each line of the file
+                #create a list of lines from the file that you're cleaning to see if it's a duplicate line.
                 lines_seen = set()
+                #examine each line of the file
                 for line in oldfile:
                     #check to see if it's an empty line
                     if not line.isspace():
@@ -40,4 +43,5 @@ for root,_,files in os.walk(path):
                             if line not in lines_seen: # not a duplicate
                                 #print each "bad_word" free, non duplicate line to the file.
                                 newfile.write(line)
+                                #add this new line to the list of lines you've examined for duplicates
                                 lines_seen.add(line)
