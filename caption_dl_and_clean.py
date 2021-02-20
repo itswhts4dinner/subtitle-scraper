@@ -10,7 +10,7 @@ parent_dir = input("What is the path to your other transcripts?")
 path = os.path.join(parent_dir, channel_being_downloaded)
 #make the directory you're going to save to
 os.mkdir(path)
-print("Directory '% s' created" % channel_being_downloaded)
+print(f"Directory {channel_being_downloaded} created")
 #move to the directory you're going to save to
 os.chdir(path)
 
