@@ -19,7 +19,9 @@ address_of_channel = input("What is the address of the channel?")
 #download the .vtt files
 os.system(f"youtube-dl --no-check-certificate --write-auto-sub --skip-download -o'%(upload_date)s.%(title)s.%(id)s.%(ext)s' '{address_of_channel}'")
 
+
 #Look at the folder full of .vtt files you just downloaded
+#clean all files of formatting and convert to .txt
 for root,_,files in os.walk(path):
     for file in files:
         #only work on the .vtt files
@@ -45,3 +47,26 @@ for root,_,files in os.walk(path):
                                 newfile.write(line)
                                 #add this new line to the list of lines you've examined for duplicates
                                 lines_seen = line
+#Organize all the files by type and put them in their own folders
+#delete all .en files
+for root,_,files in os.walk(path):
+    #creath directories for the vtt and txt files
+    vtt_dir = os.path.join(parent_dir, channel_being_downloaded, "vtt files")
+    txt_dir = os.path.join(parent_dir, channel_being_downloaded, "txt files")
+    os.mkdir(vtt_dir)
+    os.mkdir(txt_dir)
+    for file in files:
+        #if it ends in vtt move it to the vtt folder
+        if file.endswith(".vtt"):
+            src = f"{path}/{file}"
+            dst = f"{vtt_dir}/{file}"
+            os.rename(src, dst)
+        #if it ends in txt move it to the txt folder
+        if file.endswith(".txt"):
+            src = f"{path}/{file}"
+            dst = f"{txt_dir}/{file}"
+            os.rename(src, dst)
+        #if it ends in .en delete it
+        if file.endswith(".en"):
+            src = f"{path}/{file}"
+            os.remove(src)
