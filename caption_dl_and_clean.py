@@ -2,7 +2,11 @@ import os
 import sys
 
 
+<<<<<<< Updated upstream:caption_dl_and_clean.py
 
+=======
+#get your local directories
+>>>>>>> Stashed changes:timestamp-stripper.py
 channel_being_downloaded = input("What is the name of the channel you're downloading?")
 # Parent Directory path
 parent_dir = input("What is the path to your other transcripts?")
