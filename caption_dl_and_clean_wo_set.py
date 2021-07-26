@@ -19,7 +19,6 @@ address_of_channel = input("What is the address of the channel?")
 #download the .vtt files
 os.system(f"youtube-dl --no-check-certificate --write-auto-sub --skip-download -o'%(upload_date)s.%(title)s.%(id)s.%(ext)s' '{address_of_channel}'")
 
-
 #Look at the folder full of .vtt files you just downloaded
 #clean all files of formatting and convert to .txt
 for root,_,files in os.walk(path):
